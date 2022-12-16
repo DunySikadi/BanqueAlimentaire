@@ -1,0 +1,59 @@
+{% extends 'backend/base.html.twig' %}
+
+ 
+{% block body %}
+     <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Classification de produit</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter une Classification</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Classification</h4>
+                                <div class="basic-form">
+                                    
+                                    {{ form_start(form) }}
+                                    <form>
+                                         <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label>Type de classification </label>
+                                                   
+                                                 {{ form_widget(form.type, {'attr': {'class': 'form-control','type':"text"}}) }}
+                                            </div>
+                                            
+                                        </div>
+                                      
+                                          {% if modifier == false%}
+                                          <button type="submit" class="btn mb-1 btn-primary">ajouter</button>
+                                          {% else %}
+                                          <button type="submit" class="btn mb-1 btn-primary">modifier</button>
+
+                                          {% endif %}
+                                         
+                                       {# {{ form_widget(form.ajouter, {'attr': {'class':"btn mb-1 btn-primary" }}) }} #}
+                                        
+                                        {{ form_end(form) }}
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+
+
+   
+
+    {# <a href="{{ path('app_utilisateur_index') }}">back to list</a> #}
+{% endblock %}

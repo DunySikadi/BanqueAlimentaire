@@ -1,0 +1,88 @@
+{% extends 'backend/base.html.twig' %}
+
+ 
+{% block body %}
+     <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)"> produit</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter un produit</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Produit</h4>
+                                <div class="basic-form">
+                                    
+                                    {{ form_start(form) }}
+                                    <form>
+                                    
+                                         <div class="form-row">
+                                         <div class="form-group">
+                                            <label>codeArticle</label>
+                                            {{ form_widget(form.codeArticle, {'attr': {'class': 'form-control' }}) }}
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                         <div class="form-group">
+                                            <label>libelleArticle</label>
+                                            {{ form_widget(form.libelleArticle, {'attr': {'class': 'form-control'  }}) }}
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                         <div class="form-group">
+                                            <label>indice</label>
+                                            {{ form_widget(form.indice, {'attr': {'class': 'form-control' }}) }}
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                         <div class="form-group">
+                                            <label>sousFamille</label>
+                                            {{ form_widget(form.sousFamille, {'attr': {'class': 'form-control', }}) }}
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                         <div class="form-group">
+                                            <label>classification</label>
+                                            {{ form_widget(form.classification, {'attr': {'class': 'form-control'  }}) }}
+                                            
+                                        </div>
+                                        </div>
+                                      
+                                          {% if modifier == false%}
+                                          <button type="submit" class="btn mb-1 btn-primary">ajouter</button>
+                                          {% else %}
+                                          <button type="submit" class="btn mb-1 btn-primary">modifier</button>
+
+                                          {% endif %}
+                                         
+                                       {# {{ form_widget(form.ajouter, {'attr': {'class':"btn mb-1 btn-primary" }}) }} #}
+                                        
+                                        {{ form_end(form) }}
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+
+
+   
+
+    {# <a href="{{ path('app_utilisateur_index') }}">back to list</a> #}
+{% endblock %}
+

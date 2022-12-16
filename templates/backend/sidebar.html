@@ -1,0 +1,112 @@
+  <!--**********************************
+            Sidebar start
+        ***********************************-->
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="nk-sidebar">           
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                     <li>
+                        <a   href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                        </a>
+         
+                    </li>
+                   
+                
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i><span class="nav-text">Utilisateur</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ path('app_utilisateur_new') }}">Ajouter Utilisateur</a></li>
+                            <li><a href="{{ path('app_utilisateur_index') }}">Gerer les utilisateurs</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i><span class="nav-text">Produit</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ path('app_article_new') }}">Ajouter Produit</a></li>
+                            <li><a href="{{ path('app_article_index') }}">Gerer les produits</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i><span class="nav-text">Famille</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ path('app_famille_new') }}">Ajouter famille</a></li>
+                            <li><a href="{{ path('app_famille_index') }}">Gerer les familles</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i><span class="nav-text">Sous Famille</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ path('app_sous_famille_new') }}">Ajouter sous famille</a></li>
+                            <li><a href="{{ path('app_sous_famille_index') }}">Gerer les sous familles</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i><span class="nav-text">Classification</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ path('app_sous_famille_new') }}">Ajouter Classification</a></li>
+                            <li><a href="{{ path('app_sous_famille_index') }}">Gerer les Classifications</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li class="mega-menu mega-menu-sm">
+                        <a  href="{{ path('app_commande_index') }}" aria-expanded="false">
+                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Commandes</span>
+                        </a>
+                        
+                    </li>
+                   
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        
+        {% elseif is_granted('ROLE_USER') %}
+        <div class="nk-sidebar">           
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                     <li>
+                        <a   href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                        </a>
+         
+                    </li>
+                   
+                
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-menu menu-icon"></i><span class="nav-text">Commander</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{ path('app_detail_commande_new') }}">Ajouter une commande</a></li>
+                            <li><a href="{{ path('app_commande_index') }}">Mes commandes</a></li>
+                            
+                        </ul>
+                    </li>
+                   
+                   
+                    
+                    
+                </ul>
+            </div>
+        </div>
+{% endif %}
+      
+        <!--**********************************
+            Sidebar end
+        ***********************************-->

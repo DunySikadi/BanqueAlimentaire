@@ -1,0 +1,94 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Famille index{% endblock %}
+
+{% block body %}
+ 
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Commande</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Mes commande</a></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    
+                    <!-- /# column -->
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <h4>Commande</h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Utilisateur</th>
+                                                <th>Date</th>
+                                                <th>Etat</th>
+                                                 {% if is_granted('ROLE_ADMIN') %}
+                                                <th>supprimer</th>
+                                                
+                                                <th>Accepter</th>
+                                                
+                                                {% endif %}
+                                                <th>Detail</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for c in commandes %}
+                                            <tr>
+                                                <td>{{ c.Utilisateur.Username }}</td>
+                                                <td>{{ c.date|date('d-m-Y')}}</td>
+                                                
+                                                {% if(c.etat==true) %}
+                                                <td> Acceptée</td>
+                                                {% endif %} 
+                                                {% if(c.etat==false) %}
+                                                <td>En cours de traitement</td>
+                                                {% endif %} 
+                                                 {% if is_granted('ROLE_ADMIN') %}
+                                                <td>
+                                                 <form method="post" action="{{ path('app_commande_delete', {'id': c.id}) }}" onsubmit="return confirm('voulez vous supprimer cette commande?');">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ c.id) }}">
+                                                <a class="btn mb-1 btn-rounded btn-danger" style="color:white;" href="#" onclick="$(this).closest('form').submit()">supprimer</a>
+                                           
+                                            </form>
+                                                
+                                                </td>
+
+                                                
+                                                 
+                                                
+                                                <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('accepter', {'id': c.id}) }}">accepter</a>
+                                                </td>
+                                                 {% endif %}
+                                                
+                                                <td><a type="button" class="btn mb-1 btn-rounded btn-info" href="{{ path('detail', {'id': c.id}) }}">Detail</a>
+                                                </td>
+                                                {% endfor %}
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                                    <!-- /# card -->
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- #/ container -->
+ 
+{% endblock %}
+
+
+
+
+
+             
