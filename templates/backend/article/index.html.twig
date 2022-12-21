@@ -5,12 +5,7 @@
 {% block body %}
  
             <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Famille</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">liste des Famille</a></li>
-                    </ol>
-                </div>
+                
             </div>
 
             <div class="container-fluid">
@@ -21,7 +16,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title">
-                                    <h4>Table Hover</h4>
+                                    <h4>Aricles</h4>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-hover">
@@ -30,7 +25,7 @@
                                                 <th>CodeArticle</th>
                                                 <th>LibelleArticle</th>
                                                 <th>Indice</th>
-                                                 
+                                                 <th>Publiable</th>
                                                 <th>sous famille</th>
                                                 <th>classification</th>
                                                 <th>Supprimer</th>
@@ -43,6 +38,11 @@
                                                 <td>{{ article.codeArticle }}</td>
                                                 <td>{{ article.libelleArticle }}</td>
                                                 <td>{{ article.indice }}</td>
+                                                {% if article.publiable %}
+                                                <td>Publiable</td>
+                                                {% else %}
+                                                <td>Non Publiable</td>
+                                                 {% endif %}
                                                  <td>{{ article.sousFamille.libelleSF }}</td>
                                                 <td>{{ article.classification.type}}</td>
                                                 <td>

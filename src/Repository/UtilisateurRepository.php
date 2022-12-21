@@ -19,7 +19,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
   */
 class UtilisateurRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public const PAGINATOR_PER_PAGE = 2;
+    public const PAGINATOR_PER_PAGE = 10;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Utilisateur::class);

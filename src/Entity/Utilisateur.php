@@ -45,7 +45,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
 
-    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commande::class)]
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Commande::class, orphanRemoval:true)]
     private Collection $commandes;
 
     #[ORM\ManyToMany(targetEntity: Classification::class, inversedBy: 'utilisateurs')]

@@ -5,7 +5,7 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use App\Entity\Commande;
-
+use App\Repository\ClassificationRepository;
 use App\Repository\CommandeRepository;
 use App\Entity\DetailCommande;
 use App\Form\DetailCommandeType;
@@ -39,37 +39,113 @@ class DetailCommandeController extends AbstractController
         
        
     }
+    #[Route('/csv/{id}', name: 'csv', methods: ['GET'])]
+    public function csv(Commande $Commande,DetailCommandeRepository $cr): Response
+    {
+        $myVariableCSV = "Type;Ref Cde;Client;Ste-01;B.A;DateLivraison;Date Commande;Commentaire Commande\n";
+    //Adding data (with the . in front to add the data to the existing variable)
+   
+    //If you wish to add a space
+    $myVariableCSV .= "E;".$Commande->getId().";".$Commande->getUtilisateur()->getNomAssociation().";01;87;???;".$Commande->getDate()->format('Y-m-d H:i:s').";".$Commande->getCommentaire()."\n";
+    //Other data
+    $myVariableCSV .= "\n";
+    $myVariableCSV .= " ;No ligne; Article; Qte Commandee; Unite Poids; Commentaire ligne\n";
+    $details = $cr->findByCommande($Commande);
+    foreach($details as $key => $value ){
+        $myVariableCSV .= "L;".strval($key+1).";".$value->getArticle()->getCodeArticle().";".$value->getQuantite()."; Kg ;  \n";
+
+    }
+    //We give the variable in string to the response, we set the HTTP code to 200
+    return new Response(
+           $myVariableCSV,
+           200,
+           [
+         //Defines the content of the query as an Excel file
+             'Content-Type' => 'application/vnd.ms-excel',
+         //We indicate that the file will be in attachment so opening the download box, as well as the definition of the name of the file
+             "Content-disposition" => "attachment; filename=commande.csv"
+          ]
+    );
+        
+       
+    }
     
     #[Route('/', name: 'app_commande_index', methods: ['GET'])]
-    public function index(CommandeRepository $cr): Response
+    public function index(CommandeRepository $cr ): Response
     {
+       
+        
         if($this->isGranted('ROLE_ADMIN')){
+
             return $this->render('backend/detail_commande/listecommande.html.twig', [
                 'commandes' => $cr->findAll(),
+                 
             ]);
         }
         return $this->render('backend/detail_commande/listecommande.html.twig', [
             'commandes' => $cr->findByUser($this->getUser()),
+             
         ]);
        
     }
 
-    #[Route('/new', name: 'app_detail_commande_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, DetailCommandeRepository $detailCommandeRepository , ArticleRepository $articleRepository, CommandeRepository $commandeRepository): Response
+    #[Route('/recherche', name: 'app_commande_search', methods: ['GET','POST'])]
+    public function recherche(CommandeRepository $cr,Request $request  ): Response
     {
+        $data = $request->get('search');
+        $cmd = $cr->search($data);
+
+        return $this->render('backend/detail_commande/listecommande.html.twig', [
+            'commandes' => $cmd,
+             
+        ]);
+    }
+    function dateDiffInDays($date1, $date2) 
+  {
+       
+      $diff = strtotime($date2) - strtotime($date1);
+      return  round($diff / 86400);
+  }
+    #[Route('/new', name: 'app_detail_commande_new', methods: ['GET', 'POST'])]
+    public function new(Request $request,ClassificationRepository $classificationRepo ,  DetailCommandeRepository $detailCommandeRepository , ArticleRepository $articleRepository, CommandeRepository $commandeRepository): Response
+    {
+        $user = $this->getUser();
+        $erreur=" ";
+        $arts = $articleRepository->afficher();
+        $classifications = $user->getClassifications();
+       foreach($arts as $key => $value){
+         $test = false;
+        foreach($classifications as $c){
+            if($value->getClassification()->getId() == $c->getId() )  $test = true;    
+        }
+        if(!$test)  unset($arts[$key]);
+         
+       }
+
+
         $commande = new Commande();
         $commande->setUtilisateur($this->getUser());
-        $commande->setDate(new \DateTime());
+        $today = new \DateTime();
+        $commande->setDate($today);
         $commande->setCodeCommande("random_bytes(1)");
         $commande->setDate(new \DateTime());
         $commande->setEtat(false);
         
+         
         if($request->isMethod('POST')){
-            $commandeRepository->save($commande, true);
-            $posts = $request->request->all();
+            $commentaire = $request->request->get('commentaire');
+            $date = $request->request->get('date');
+            $beneficiaire = $request->request->get('beneficiaire');
+            $commande->setDateSouhaite(new \DateTime($date));
+            $commande->setBeneficiaire($beneficiaire);
+            $commande->setCommentaire($commentaire);
+            if($this->dateDiffInDays($today->format('Y-m-d H:i:s') ,$date)>=2){
+                $commandeRepository->save($commande, true);
+                $posts = $request->request->all();
             
             $articles = $request->request->all('article');
             $quantites = $request->request->all('quantite');
+            
             
             foreach($articles as $key => $article){
                 $detailCommande = new DetailCommande();
@@ -77,16 +153,22 @@ class DetailCommandeController extends AbstractController
                 $detailCommande =$detailCommande->setArticle($articleRepository->find($article));
                 $detailCommande =$detailCommande->setQuantite($quantites[$key]) ;
                 $detailCommande =$detailCommande->setCommande($commande) ;
-                //var_dump($detailCommande->getCommande()->getId());
+                 
                 $detailCommandeRepository->save($detailCommande, true);
+
+                return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
              }
-            // $detailCommandeRepository->save($detailCommande, false);
+            }
+            else $erreur.=" ! la date souhaité doit etre au minimum aprés 2 jour de la date de commande ! ";
+            
+            
           
 
            
          }
         return $this->renderForm('backend/detail_commande/new.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $arts,
+            'erreur' => $erreur,
             
             
         ]);

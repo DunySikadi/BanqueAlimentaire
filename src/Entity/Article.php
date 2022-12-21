@@ -28,12 +28,15 @@ class Article
     #[ORM\JoinColumn(nullable: false)]
     private ?SousFamille $sousFamille = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: DetailCommande::class)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: DetailCommande::class,orphanRemoval:true)]
     private Collection $detailCommandes;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Classification $classification = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $publiable = null;
 
     public function __construct()
     {
@@ -131,6 +134,18 @@ class Article
     public function setClassification(?Classification $classification): self
     {
         $this->classification = $classification;
+
+        return $this;
+    }
+
+    public function isPubliable(): ?bool
+    {
+        return $this->publiable;
+    }
+
+    public function setPubliable(?bool $publiable): self
+    {
+        $this->publiable = $publiable;
 
         return $this;
     }

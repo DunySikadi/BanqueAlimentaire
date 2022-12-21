@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Entity\Classification;
 use App\Entity\SousFamille;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 
 class ArticleType extends AbstractType
 {
@@ -43,6 +45,13 @@ class ArticleType extends AbstractType
                  //'expanded' => true,
                  
                   
+            ])
+            ->add('publiable', ChoiceType::class, [
+                'choices'  => [
+                     
+                    'Oui' => true,
+                    'Non' => false,
+                ],
             ])
         ;
     }

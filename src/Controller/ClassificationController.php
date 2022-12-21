@@ -24,6 +24,7 @@ class ClassificationController extends AbstractController
     #[Route('/new', name: 'app_classification_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ClassificationRepository $classificationRepository): Response
     {
+         
         $classification = new Classification();
         $form = $this->createForm(ClassificationType::class, $classification);
         $form->handleRequest($request);

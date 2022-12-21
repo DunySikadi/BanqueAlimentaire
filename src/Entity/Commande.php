@@ -32,8 +32,14 @@ class Commande
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
-    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: DetailCommande::class)]
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: DetailCommande::class,orphanRemoval:true)]
     private Collection $detailCommandes;
+
+    #[ORM\Column(length: 255,nullable: true)]
+    private ?string $commentaire = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $beneficiaire = null;
 
     public function __construct()
     {
@@ -133,6 +139,30 @@ class Commande
                 $detailCommande->setCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    public function getBeneficiaire(): ?int
+    {
+        return $this->beneficiaire;
+    }
+
+    public function setBeneficiaire(?int $beneficiaire): self
+    {
+        $this->beneficiaire = $beneficiaire;
 
         return $this;
     }

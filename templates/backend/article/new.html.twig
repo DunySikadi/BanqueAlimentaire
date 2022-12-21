@@ -3,12 +3,7 @@
  
 {% block body %}
      <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)"> produit</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter un produit</a></li>
-                    </ol>
-                </div>
+                 
             </div>
             <!-- row -->
 
@@ -55,6 +50,13 @@
                                          <div class="form-group">
                                             <label>classification</label>
                                             {{ form_widget(form.classification, {'attr': {'class': 'form-control'  }}) }}
+                                            
+                                        </div>
+                                        </div>
+                                        <div class="form-row">
+                                         <div class="form-group">
+                                            <label>Publiable</label>
+                                            {{ form_widget(form.publiable, {'attr': {'class': 'form-control'  }}) }}
                                             
                                         </div>
                                         </div>

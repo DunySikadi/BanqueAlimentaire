@@ -1,16 +1,22 @@
 {% extends 'backend/base.html.twig' %}
 
 {% block title %}Famille index{% endblock %}
-
+{% block search %}
+        <div class="input-group icons">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
+                        </div>
+                                                
+                        <form action="{{ path('app_commande_search') }}", method="post">
+                        <input type="text"   name="search" class="form-control" placeholder="recherche d'association" aria-label="Search Dashboard">
+                        </form>
+                      
+                    </div>  
+ {% endblock %}
 {% block body %}
  
             <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Commande</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Mes commande</a></li>
-                    </ol>
-                </div>
+               
             </div>
 
             <div class="container-fluid">
@@ -28,8 +34,11 @@
                                         <thead>
                                             <tr>
                                                 <th>Utilisateur</th>
+                                                <th>nom d'association</th>
                                                 <th>Date</th>
                                                 <th>Etat</th>
+                                                <th>date souhaité</th>
+                                                <th>commentaire</th>
                                                  {% if is_granted('ROLE_ADMIN') %}
                                                 <th>supprimer</th>
                                                 
@@ -43,6 +52,7 @@
                                         {% for c in commandes %}
                                             <tr>
                                                 <td>{{ c.Utilisateur.Username }}</td>
+                                                  <td>{{ c.Utilisateur.nomAssociation }}</td>
                                                 <td>{{ c.date|date('d-m-Y')}}</td>
                                                 
                                                 {% if(c.etat==true) %}
@@ -51,8 +61,12 @@
                                                 {% if(c.etat==false) %}
                                                 <td>En cours de traitement</td>
                                                 {% endif %} 
+                                                <td>{{ c.datesouhaite|date('d-m-Y')}}</td>
+                                                   <td>{{ c.commentaire }}</td>
                                                  {% if is_granted('ROLE_ADMIN') %}
+                                                  
                                                 <td>
+
                                                  <form method="post" action="{{ path('app_commande_delete', {'id': c.id}) }}" onsubmit="return confirm('voulez vous supprimer cette commande?');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ c.id) }}">

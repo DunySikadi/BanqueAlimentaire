@@ -3,12 +3,7 @@
  
 {% block body %}
      <div class="row page-titles mx-0">
-                <div class="col p-md-0">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Sous Famille de produit</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter une sous famille</a></li>
-                    </ol>
-                </div>
+                
             </div>
             <!-- row -->
 
@@ -17,11 +12,15 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Passer une commande</h4>
+                                <h4 class="card-title">Passer une commande 
+                                <span style="color:red;">{{erreur}}</span>
+                        
+                                </h4>
                                 <div class="basic-form">
                                     
                                      <form method="POST" id ="formulaire">
-                                         <div class="form-row" id="0" >
+                                      <div id ="xxx"  >
+  <div class="form-row" id="0" >
                                             <div class="form-group col-md-6">
                                                 <label>Article</label>
                                                   <select name="article[0]" class="form-control" id="article-select" required>
@@ -38,12 +37,47 @@
                                                <input type="number" name="quantite[0]" class="form-control" required >  
                                              </div>
                                             
+                                        
                                         </div>
+                                      
+                                      </div>      
+                                        <div class="form-row"   >
+                                            <div class="form-group col-md-12">
+                                                <label>Nombre de beneficiaire</label>
+                                                   
+                                                 <input type="number" name="beneficiaire" class="form-control" > 
+                                             </div>
+                                                
+                                        </div><div class="form-row"   >
+                                            <div class="form-group col-md-12">
+                                                <label>date de livraison souhaité</label>
+                                                   
+                                                 <input type="date" name="date" class="form-control" >
+                                                  
+                                             </div>
+                                                
+                                        </div>
+                                        <div class="form-row"   >
+                                            <div class="form-group col-md-12">
+                                                <label>Commentaire</label>
+                                                   
+                                                 <input type="text" name="commentaire" class="form-control" > 
+                                             </div>
+                                                
+                                        </div>
+                                        
+                                              
+                                            
+                                        
+                                        
+
+                                       
+                                        
                                            
 
                                     </form>
-                   <button  class="btn mb-1 btn-primary" onclick="add_more_commande()">ajouter</button>
-                   <button  class="btn mb-1 btn-primary" type="submit" form="formulaire">submit</button>
+                   <button  class="btn mb-1 btn-primary" onclick="add_more_commande()">ajouter un autre Produit</button>
+                   <button  class="btn mb-1 btn-primary" type="submit" form="formulaire">passer la commande</button>
 
                                 </div>
                             </div>
@@ -67,7 +101,7 @@
     function add_more_commande(){
         counter++;
       var  html='<div class="form-row" >\
-          <div class="form-group col-md-6"\
+          <div class="form-group col-md-6">\
           <label>Article</label>\
  <select name="article['+counter+']" class="form-control" id="article-select" required>\
 <option value="">--choisissez un produit--</option>\
@@ -81,7 +115,7 @@
   <input type="number" name="quantite['+counter+']" class="form-control" required>\
     </div>\
  </div>';
- var form = document.getElementById('formulaire');
+ var form = document.getElementById('xxx');
  form.innerHTML+=html;
     }
     

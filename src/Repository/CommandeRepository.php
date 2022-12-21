@@ -51,7 +51,13 @@ class CommandeRepository extends ServiceEntityRepository
            ->getResult()
        ;
    }
-
+   public function search ($association){
+    return $this->createQueryBuilder('b')
+               ->join('b.utilisateur', 'r')
+               ->where('r.nomAssociation  LIKE :association')
+                ->setParameter('association','%'.$association.'%')
+                 ->getQuery()->getResult();
+}
 //    public function findOneBySomeField($value): ?Commande
 //    {
 //        return $this->createQueryBuilder('c')
