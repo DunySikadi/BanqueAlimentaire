@@ -51,6 +51,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Classification::class, inversedBy: 'utilisateurs')]
     private Collection $classifications;
 
+     
     
 
     public function __construct()
@@ -230,6 +231,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    
 
      
 }

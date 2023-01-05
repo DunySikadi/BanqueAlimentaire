@@ -19,8 +19,8 @@
                                 <div class="basic-form">
                                     
                                      <form method="POST" id ="formulaire">
-                                      <div id ="xxx"  >
-  <div class="form-row" id="0" >
+                                      <div id ="xxx">
+                                      <div class="form-row" id="0" >
                                             <div class="form-group col-md-6">
                                                 <label>Article</label>
                                                   <select name="article[0]" class="form-control" id="article-select" required>
@@ -30,8 +30,7 @@
                                                 
                                                    {% endfor %}
                                                     </select>
-                                                 {# <input type="text" name="article" class="form-control" placeholder="Identifiant">  #}
-                                             </div>
+                                              </div>
                                               <div class="form-group col-md-6">
                                                 <label>Quantite</label>
                                                <input type="number" name="quantite[0]" class="form-control" required >  
@@ -100,8 +99,7 @@
     var counter=0;
     function add_more_commande(){
         counter++;
-      var  html='<div class="form-row" >\
-          <div class="form-group col-md-6">\
+      var  html='<div class="form-group col-md-6">\
           <label>Article</label>\
  <select name="article['+counter+']" class="form-control" id="article-select" required>\
 <option value="">--choisissez un produit--</option>\
@@ -113,10 +111,12 @@
        <div class="form-group col-md-6">\
    <label>Quantite</label>\
   <input type="number" name="quantite['+counter+']" class="form-control" required>\
-    </div>\
- </div>';
- var form = document.getElementById('xxx');
- form.innerHTML+=html;
+    </div>';
+ var container = document.createElement("div");
+ container.classList.add('form-row');
+container.innerHTML += html;
+document.getElementById("xxx").appendChild(container);
+  
     }
     
     </script>

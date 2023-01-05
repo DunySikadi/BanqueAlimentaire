@@ -1,0 +1,44 @@
+ 
+                                    <h3>La commande de l'association  : {{commande.utilisateur.nomAssociation}}| code de l'association : {{commande.utilisateur.username}}
+                                     </h3>
+                                    <h4> date de la commande :{{commande.date|date('d-m-Y H:i')}} | date souhaite : {{commande.dateSouhaite|date('d-m-Y H:i')}}</h4>
+                                    <h5> Nombre de beneficiaire : {{commande.beneficiaire}}</h5>
+                                 
+                                    <table  >
+                                        <thead>
+                                            <tr>
+                                                 <th>famille</th>
+                                                <th>sous famille</th>
+                                                
+                                                <th>produit</th>
+                                                <th>quantite</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for f in details %}
+                                            <tr>
+                                                <td>{{ f.article.sousFamille.famille.libelleFamille }}</td>
+                                                <td>{{ f.article.sousFamille.libelleSF}}</td>
+                                                <td>{{ f.article.libelleArticle  }}</td>
+                                                <td>{{ f.quantite}}</td>
+                                           
+
+                                                
+                                                 
+                                                {# <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('app_famille_edit', {'id': f.id}) }}">modifier</a>
+                                                </td> #}
+                                                {% endfor %}
+
+                                            
+                                        </tbody>
+                                    </table>
+                                     
+                 
+            <!-- #/ container -->
+ 
+
+
+
+
+
+            

@@ -21,11 +21,11 @@ class DetailCommandeController extends AbstractController
 {
     
     #[Route('/pdf/{id}', name: 'pdf', methods: ['GET'])]
-    public function pdf(Commande $Commande,DetailCommandeRepository $cr): Response
+    public function pdf(Commande $commande,DetailCommandeRepository $cr): Response
     {
         $html =  $this->renderView('backend/detail_commande/pdf.html.twig', [
-            'details' => $cr->findByCommande($Commande),
-            
+            'details' => $cr->findByCommande($commande),
+            'commande' => $commande,
         ]);
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
@@ -43,11 +43,9 @@ class DetailCommandeController extends AbstractController
     public function csv(Commande $Commande,DetailCommandeRepository $cr): Response
     {
         $myVariableCSV = "Type;Ref Cde;Client;Ste-01;B.A;DateLivraison;Date Commande;Commentaire Commande\n";
-    //Adding data (with the . in front to add the data to the existing variable)
-   
-    //If you wish to add a space
-    $myVariableCSV .= "E;".$Commande->getId().";".$Commande->getUtilisateur()->getNomAssociation().";01;87;???;".$Commande->getDate()->format('Y-m-d H:i:s').";".$Commande->getCommentaire()."\n";
-    //Other data
+    
+    $myVariableCSV .= "E;".$Commande->getId().";".$Commande->getUtilisateur()->getNomAssociation().";01;87;".$Commande->getDateSouhaite()->format('Y-m-d H:i:s').";".$Commande->getDate()->format('Y-m-d H:i:s').";".$Commande->getCommentaire()."\n";
+    
     $myVariableCSV .= "\n";
     $myVariableCSV .= " ;No ligne; Article; Qte Commandee; Unite Poids; Commentaire ligne\n";
     $details = $cr->findByCommande($Commande);
@@ -55,15 +53,13 @@ class DetailCommandeController extends AbstractController
         $myVariableCSV .= "L;".strval($key+1).";".$value->getArticle()->getCodeArticle().";".$value->getQuantite()."; Kg ;  \n";
 
     }
-    //We give the variable in string to the response, we set the HTTP code to 200
+     
     return new Response(
            $myVariableCSV,
            200,
            [
-         //Defines the content of the query as an Excel file
-             'Content-Type' => 'application/vnd.ms-excel',
-         //We indicate that the file will be in attachment so opening the download box, as well as the definition of the name of the file
-             "Content-disposition" => "attachment; filename=commande.csv"
+              'Content-Type' => 'application/vnd.ms-excel',
+              "Content-disposition" => "attachment; filename=".$Commande->getUtilisateur()->getNomAssociation()."_".$Commande->getDate()->format('Y-m-d H:i:s').".csv"
           ]
     );
         
@@ -147,17 +143,19 @@ class DetailCommandeController extends AbstractController
             $quantites = $request->request->all('quantite');
             
             
-            foreach($articles as $key => $article){
+            foreach($articles as $indice => $article){
                 $detailCommande = new DetailCommande();
 
                 $detailCommande =$detailCommande->setArticle($articleRepository->find($article));
-                $detailCommande =$detailCommande->setQuantite($quantites[$key]) ;
+                $detailCommande =$detailCommande->setQuantite($quantites[$indice]) ;
                 $detailCommande =$detailCommande->setCommande($commande) ;
                  
                 $detailCommandeRepository->save($detailCommande, true);
-
-                return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
+            
+                 
+                
              }
+             return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
             }
             else $erreur.=" ! la date souhaité doit etre au minimum aprés 2 jour de la date de commande ! ";
             
@@ -175,11 +173,7 @@ class DetailCommandeController extends AbstractController
 
 
 
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $detailCommandeRepository->save($detailCommande, true);
-
-        //     return $this->redirectToRoute('app_detail_commande_index', [], Response::HTTP_SEE_OTHER);
-        // }
+        
     }
 
     #[Route('/{id}', name: 'detail', methods: ['GET'])]
