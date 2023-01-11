@@ -38,6 +38,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?bool $publiable = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?Famille $famille = null;
+
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
@@ -146,6 +149,18 @@ class Article
     public function setPubliable(?bool $publiable): self
     {
         $this->publiable = $publiable;
+
+        return $this;
+    }
+
+    public function getFamille(): ?Famille
+    {
+        return $this->famille;
+    }
+
+    public function setFamille(?Famille $famille): self
+    {
+        $this->famille = $famille;
 
         return $this;
     }

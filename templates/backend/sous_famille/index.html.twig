@@ -24,7 +24,7 @@
                                             <tr>
                                                  <th>Code</th>
                                                 <th>Libellé</th>
-                                                <th>Famille</th>
+                                                
                                                 <th>Supprimer</th>
                                                 <th>Mofifier</th>
                                             </tr>
@@ -34,8 +34,7 @@
                                             <tr>
                                                 <td>{{ f.codeSF }}</td>
                                                 <td>{{ f.libelleSF }}</td>
-                                                <td>{{ f.famille.libelleFamille }}</td>
-                                                <td>
+                                                 <td>
                                                  <form method="post" action="{{ path('app_sous_famille_delete', {'id': f.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ f.id) }}">

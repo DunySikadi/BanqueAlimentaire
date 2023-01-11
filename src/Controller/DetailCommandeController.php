@@ -29,6 +29,7 @@ class DetailCommandeController extends AbstractController
         ]);
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
+        $dompdf->set_paper("a4", "landscape" );
         $dompdf->render();
          
         return new Response (
@@ -74,7 +75,7 @@ class DetailCommandeController extends AbstractController
         if($this->isGranted('ROLE_ADMIN')){
 
             return $this->render('backend/detail_commande/listecommande.html.twig', [
-                'commandes' => $cr->findAll(),
+                'commandes' => $cr->findBy(array(),array('date' => 'DESC')),
                  
             ]);
         }

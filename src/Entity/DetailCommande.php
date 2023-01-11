@@ -24,6 +24,9 @@ class DetailCommande
     #[ORM\ManyToOne(inversedBy: 'detailCommandes')]
     private ?Article $article = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $commentaire = null;
+
    
 
     public function getId(): ?int
@@ -63,6 +66,18 @@ class DetailCommande
     public function setArticle(?Article $article): self
     {
         $this->article = $article;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }

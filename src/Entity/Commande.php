@@ -41,6 +41,9 @@ class Commande
     #[ORM\Column(nullable: true)]
     private ?int $beneficiaire = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $livrable = null;
+
     public function __construct()
     {
         $this->detailCommandes = new ArrayCollection();
@@ -163,6 +166,18 @@ class Commande
     public function setBeneficiaire(?int $beneficiaire): self
     {
         $this->beneficiaire = $beneficiaire;
+
+        return $this;
+    }
+
+    public function isLivrable(): ?bool
+    {
+        return $this->livrable;
+    }
+
+    public function setLivrable(?bool $livrable): self
+    {
+        $this->livrable = $livrable;
 
         return $this;
     }

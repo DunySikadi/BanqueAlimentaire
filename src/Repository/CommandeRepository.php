@@ -51,6 +51,7 @@ class CommandeRepository extends ServiceEntityRepository
            ->getResult()
        ;
    }
+   
    public function search ($association){
     return $this->createQueryBuilder('b')
                ->join('b.utilisateur', 'r')

@@ -205,11 +205,12 @@ Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
     
     <table class="proposedWork" width="100%" style="margin-top:20px">
       <thead>
- <th> produit</th>
-  <th>quantite</th>
-    <th>famille</th>
-       <th>sous famille</th>                                         
-        <th>classification</th>
+ <th> ART</th>
+  <th>QTE</th>
+    <th>DESIGNATION</th>
+       <th>COMMENTAIRE 25c</th>                                         
+        <th></th>
+        <th></th>
        
          
       </thead>
@@ -218,9 +219,10 @@ Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
                                             <tr>
                                             <td>{{ f.article.libelleArticle  }}</td>
                                                 <td>{{ f.quantite}}</td>
-                                                <td>{{ f.article.sousFamille.famille.libelleFamille }}</td>
+                                                <td>{{ f.article.famille.libelleFamille }}</td>
                                                 <td>{{ f.article.sousFamille.libelleSF}}</td>
-                                                <td>{{ f.article.classification.type}}</td>
+                                                <td></td>
+                                                 <td></td>
                                                 
                                         
                                                 {% endfor %}

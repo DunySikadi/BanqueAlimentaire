@@ -21,9 +21,7 @@ class SousFamille
     #[ORM\Column(length: 255)]
     private ?string $libelleSF = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sousFamilles')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Famille $famille = null;
+  
 
     #[ORM\OneToMany(mappedBy: 'sousFamille', targetEntity: Article::class)]
     private Collection $articles;
@@ -61,18 +59,7 @@ class SousFamille
 
         return $this;
     }
-
-    public function getFamille(): ?Famille
-    {
-        return $this->famille;
-    }
-
-    public function setFamille(?Famille $famille): self
-    {
-        $this->famille = $famille;
-
-        return $this;
-    }
+ 
 
     /**
      * @return Collection<int, Article>

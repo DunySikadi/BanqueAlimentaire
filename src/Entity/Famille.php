@@ -21,12 +21,15 @@ class Famille
     #[ORM\Column(length: 255)]
     private ?string $libelleFamille = null;
 
-    #[ORM\OneToMany(mappedBy: 'famille', targetEntity: SousFamille::class , orphanRemoval:true)]
-    private Collection $sousFamilles;
+    #[ORM\OneToMany(mappedBy: 'famille', targetEntity: Article::class)]
+    private Collection $articles;
+
+    
 
     public function __construct()
     {
         $this->sousFamilles = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,32 +62,34 @@ class Famille
     }
 
     /**
-     * @return Collection<int, SousFamille>
+     * @return Collection<int, Article>
      */
-    public function getSousFamilles(): Collection
+    public function getArticles(): Collection
     {
-        return $this->sousFamilles;
+        return $this->articles;
     }
 
-    public function addSousFamille(SousFamille $sousFamille): self
+    public function addArticle(Article $article): self
     {
-        if (!$this->sousFamilles->contains($sousFamille)) {
-            $this->sousFamilles->add($sousFamille);
-            $sousFamille->setFamille($this);
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->setFamille($this);
         }
 
         return $this;
     }
 
-    public function removeSousFamille(SousFamille $sousFamille): self
+    public function removeArticle(Article $article): self
     {
-        if ($this->sousFamilles->removeElement($sousFamille)) {
+        if ($this->articles->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($sousFamille->getFamille() === $this) {
-                $sousFamille->setFamille(null);
+            if ($article->getFamille() === $this) {
+                $article->setFamille(null);
             }
         }
 
         return $this;
     }
+
+    
 }
