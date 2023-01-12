@@ -41,11 +41,14 @@ class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_article_show', methods: ['GET'])]
-    public function show(Article $article): Response
+    #[Route('/recherche', name: 'app_article_search', methods: ['GET','POST'])]
+    public function recherche(ArticleRepository $articleRepository,Request $request  ): Response
     {
-        return $this->render('backend/article/show.html.twig', [
-            'article' => $article,
+        $data = $request->get('search');
+        $articles = $articleRepository->search($data);
+
+        return $this->render('backend/article/index.html.twig', [
+            'articles' => $articles,
         ]);
     }
 
@@ -77,4 +80,5 @@ class ArticleController extends AbstractController
 
         return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
     }
+ 
 }

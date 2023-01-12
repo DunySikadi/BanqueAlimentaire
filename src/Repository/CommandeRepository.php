@@ -46,6 +46,7 @@ class CommandeRepository extends ServiceEntityRepository
    {
        return $this->createQueryBuilder('c')
            ->andWhere('c.utilisateur = :val')
+           ->orderBy('c.date', 'DESC')
            ->setParameter('val', $value)
            ->getQuery()
            ->getResult()

@@ -22,20 +22,26 @@
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
+                                             <th>code produit</th>
+                                                <th>libelle produit</th>
+                                                <th>quantite</th>
                                                  <th>famille</th>
                                                 <th>sous famille</th>
                                                 
-                                                <th>produit</th>
-                                                <th>quantite</th>
+                                                
+                                                 <th>commentaire</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         {% for f in details %}
                                             <tr>
+                                            <td>{{ f.article.codeArticle  }}</td>
+                                               <td>{{ f.article.libelleArticle  }}</td>
+                                                <td>{{ f.quantite}}</td>
                                                 <td>{{ f.article.famille.libelleFamille }}</td>
                                                 <td>{{ f.article.sousFamille.libelleSF}}</td>
-                                                <td>{{ f.article.libelleArticle  }}</td>
-                                                <td>{{ f.quantite}}</td>
+                                             
+                                                <td>{{ f.commentaire}}</td>
                                            
 
                                                 
@@ -49,7 +55,7 @@
                                     </table>
                                     <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('pdf', {'id': commande.id}) }}">Telecharger PDF</a>
                                                 </td> 
-                                                 <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('csv', {'id': commande.id}) }}">Telecharger Excel</a>
+                                                 <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('csv', {'id': commande.id}) }}">Telecharger VIF</a>
                                                 </td> 
                                 </div>
                             </div>

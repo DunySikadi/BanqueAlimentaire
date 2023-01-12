@@ -193,6 +193,8 @@ table.proposedWork td.description{text-align:left}
             Nombre des beneficiaires : {{commande.beneficiaire}}
           </td>
           <td contenteditable="true" style="width:50%">
+                      Remarque : {{commande.commentaire}}<br/>
+
 Date commande : {{commande.date|date('d-m-Y H:i')}} <br/>
 Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
           </td>
@@ -209,18 +211,20 @@ Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
   <th>QTE</th>
     <th>DESIGNATION</th>
        <th>COMMENTAIRE 25c</th>                                         
-        <th></th>
-        <th></th>
+        <th>&nbsp; &nbsp; &nbsp;</th>
+        <th>&nbsp; &nbsp; &nbsp;</th>
        
          
       </thead>
       <tbody>
        {% for f in details %}
                                             <tr>
+                                            <td>{{ f.article.codeArticle }}</td>
+                                            <td>{{ f.quantite}}</td>
                                             <td>{{ f.article.libelleArticle  }}</td>
-                                                <td>{{ f.quantite}}</td>
-                                                <td>{{ f.article.famille.libelleFamille }}</td>
-                                                <td>{{ f.article.sousFamille.libelleSF}}</td>
+                                                
+                                                
+                                                <td>{{ f.commentaire|length > 25 ? f.commentaire|slice(0, 25) ~ '...' :  f.commentaire  }} </td>
                                                 <td></td>
                                                  <td></td>
                                                 

@@ -43,15 +43,13 @@ class DetailCommandeController extends AbstractController
     #[Route('/csv/{id}', name: 'csv', methods: ['GET'])]
     public function csv(Commande $Commande,DetailCommandeRepository $cr): Response
     {
-        $myVariableCSV = "Type;Ref Cde;Client;Ste-01;B.A;DateLivraison;Date Commande;Commentaire Commande\n";
-    
-    $myVariableCSV .= "E;".$Commande->getId().";".$Commande->getUtilisateur()->getNomAssociation().";01;87;".$Commande->getDateSouhaite()->format('Y-m-d H:i:s').";".$Commande->getDate()->format('Y-m-d H:i:s').";".$Commande->getCommentaire()."\n";
+     
+    $myVariableCSV = "E;".$Commande->getUtilisateur()->getNomAssociation().";".$Commande->getUtilisateur()->getUsername().";01;87;".$Commande->getDateSouhaite()->format('Y-m-d H:i:s').";".$Commande->getDate()->format('Y-m-d H:i:s').";".$Commande->getCommentaire()."\n";
     
     $myVariableCSV .= "\n";
-    $myVariableCSV .= " ;No ligne; Article; Qte Commandee; Unite Poids; Commentaire ligne\n";
-    $details = $cr->findByCommande($Commande);
+     $details = $cr->findByCommande($Commande);
     foreach($details as $key => $value ){
-        $myVariableCSV .= "L;".strval($key+1).";".$value->getArticle()->getCodeArticle().";".$value->getQuantite()."; Kg ;  \n";
+        $myVariableCSV .= "L;".strval($key+1).";".$value->getArticle()->getCodeArticle().";".$value->getQuantite()."; KG;".$value->getCommentaire()." \n";
 
     }
      
@@ -80,7 +78,7 @@ class DetailCommandeController extends AbstractController
             ]);
         }
         return $this->render('backend/detail_commande/listecommande.html.twig', [
-            'commandes' => $cr->findByUser($this->getUser()),
+            'commandes' => $cr->findByUser($this->getUser(),array('date' => 'DESC')),
              
         ]);
        
@@ -132,23 +130,27 @@ class DetailCommandeController extends AbstractController
         if($request->isMethod('POST')){
             $commentaire = $request->request->get('commentaire');
             $date = $request->request->get('date');
+            $livrable = $request->request->get('livrable');
             $beneficiaire = $request->request->get('beneficiaire');
             $commande->setDateSouhaite(new \DateTime($date));
             $commande->setBeneficiaire($beneficiaire);
             $commande->setCommentaire($commentaire);
+            $commande->setLivrable($livrable);
             if($this->dateDiffInDays($today->format('Y-m-d H:i:s') ,$date)>=2){
                 $commandeRepository->save($commande, true);
                 $posts = $request->request->all();
             
             $articles = $request->request->all('article');
             $quantites = $request->request->all('quantite');
-            
+            $comments = $request->request->all('commentaireProduit');
+             
             
             foreach($articles as $indice => $article){
                 $detailCommande = new DetailCommande();
 
                 $detailCommande =$detailCommande->setArticle($articleRepository->find($article));
                 $detailCommande =$detailCommande->setQuantite($quantites[$indice]) ;
+                $detailCommande =$detailCommande->setCommentaire($comments[$indice]) ;
                 $detailCommande =$detailCommande->setCommande($commande) ;
                  
                 $detailCommandeRepository->save($detailCommande, true);

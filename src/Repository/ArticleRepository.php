@@ -46,11 +46,22 @@ class ArticleRepository extends ServiceEntityRepository
    {
        return $this->createQueryBuilder('a')
            ->andWhere('a.publiable = :val')
+           ->orderBy('a.libelleArticle', 'ASC')
            ->setParameter('val', true)
            ->getQuery()
            ->getResult()
        ;
    }
+   public function findAll()
+   {
+       return $this->findBy(array(), array('libelleArticle' => 'ASC'));
+   }
+   public function search ($libelle){
+    return $this->createQueryBuilder('b')
+               ->where('b.libelleArticle  LIKE :libelle')
+                ->setParameter('libelle','%'.$libelle.'%')
+                 ->getQuery()->getResult();
+}
 
 //    public function findOneBySomeField($value): ?Article
 //    {

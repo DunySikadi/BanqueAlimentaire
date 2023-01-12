@@ -1,6 +1,6 @@
 {% extends 'backend/base.html.twig' %}
 
-{% block title %}Famille index{% endblock %}
+{% block title %}Commandes{% endblock %}
 {% block search %}
         <div class="input-group icons">
                         <div class="input-group-prepend">
@@ -39,6 +39,7 @@
                                                 <th>Etat</th>
                                                 <th>date souhaité</th>
                                                 <th>commentaire</th>
+                                                <th>Avec livraison</th>
                                                  {% if is_granted('ROLE_ADMIN') %}
                                                 <th>supprimer</th>
                                                 
@@ -63,9 +64,17 @@
                                                 {% endif %} 
                                                 <td>{{ c.datesouhaite|date('d-m-Y')}}</td>
                                                    <td>{{ c.commentaire }}</td>
+                                                    {% if(c.livrable==true) %}
+                                                <td>Livraison</td>
+                                                {% endif %} 
+                                                {% if(c.livrable==false) %}
+                                                  <td>Sans Livraison</td>
+                                                  {% endif %} 
+                                              
                                                  {% if is_granted('ROLE_ADMIN') %}
                                                   
                                                 <td>
+                                                
 
                                                  <form method="post" action="{{ path('app_commande_delete', {'id': c.id}) }}" onsubmit="return confirm('voulez vous supprimer cette commande?');">
                                                 <input type="hidden" name="_method" value="DELETE">
