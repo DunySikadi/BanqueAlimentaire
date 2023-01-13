@@ -40,16 +40,18 @@ class DetailCommandeController extends AbstractController
         
        
     }
+
+    
     #[Route('/csv/{id}', name: 'csv', methods: ['GET'])]
     public function csv(Commande $Commande,DetailCommandeRepository $cr): Response
     {
      
-    $myVariableCSV = "E;".$Commande->getUtilisateur()->getNomAssociation().";".$Commande->getUtilisateur()->getUsername().";01;87;".$Commande->getDateSouhaite()->format('Y-m-d H:i:s').";".$Commande->getDate()->format('Y-m-d H:i:s').";".$Commande->getCommentaire()."\n";
+    $myVariableCSV = "E;ALBA87;".$Commande->getUtilisateur()->getUsername().";01;87;".$Commande->getDateSouhaite()->format('d/m/Y').";".$Commande->getDate()->format('d/m/Y').";".$Commande->getCommentaire().str_repeat(";",33)."\n";
     
     $myVariableCSV .= "\n";
      $details = $cr->findByCommande($Commande);
     foreach($details as $key => $value ){
-        $myVariableCSV .= "L;".strval($key+1).";".$value->getArticle()->getCodeArticle().";".$value->getQuantite()."; KG;".$value->getCommentaire()." \n";
+        $myVariableCSV .= "L;".strval($key+1).";".$value->getArticle()->getCodeArticle().";".number_format(round($value->getQuantite()), 3, ',', '').";KG;".$value->getCommentaire().str_repeat(";",14)."\n";
 
     }
      
@@ -64,6 +66,7 @@ class DetailCommandeController extends AbstractController
         
        
     }
+
     
     #[Route('/', name: 'app_commande_index', methods: ['GET'])]
     public function index(CommandeRepository $cr ): Response

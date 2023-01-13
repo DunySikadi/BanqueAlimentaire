@@ -35,6 +35,19 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
     
             return new Paginator($query);
         }
+
+        public function search ($nom , int $offset): Paginator{
+            
+            $query =  $this->createQueryBuilder('u')
+                       ->where('u.nomAssociation  LIKE :nom')
+                        ->setParameter('nom','%'.$nom.'%')
+                        ->setMaxResults(self::PAGINATOR_PER_PAGE)
+                        ->setFirstResult($offset)
+                        ->getQuery();
+                        return new Paginator($query);
+        }
+
+
     public function save(Utilisateur $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

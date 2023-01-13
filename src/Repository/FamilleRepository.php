@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Famille;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * @extends ServiceEntityRepository<Famille>
@@ -16,11 +17,22 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class FamilleRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 5;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Famille::class);
     }
-
+    public function getFamillePaginator(  int $offset): Paginator
+    {
+         $query = $this->createQueryBuilder('f')
+            ->orderBy('f.libelleFamille', 'ASC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+             ->setFirstResult($offset)
+             ->getQuery()
+         ;
+ 
+         return new Paginator($query);
+     }
     public function save(Famille $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

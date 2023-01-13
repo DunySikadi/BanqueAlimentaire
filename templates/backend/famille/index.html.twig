@@ -56,6 +56,45 @@
                             </div>
                         </div>
                                     <!-- /# card -->
+
+                                                                             <!-- /# pagination -->
+                        <div class="card" >
+                            <div class="card-body" >
+                                 <div class="bootstrap-pagination">
+                                    <nav>
+                                        <ul class="pagination">
+                                            <li class="page-item">
+                                            
+                                              {% if previous >= 0 %}
+            <a href="{{ path('app_utilisateur_index', {  offset: previous }) }}" class="page-link">Previous</a>
+       {% endif %}
+                                           
+                                            </li>
+                                            {% if familles|length > PAGINATOR_PER_PAGE %}
+                                            {% set j = 0 %}
+                                              {% for i  in range (0,familles|length, PAGINATOR_PER_PAGE) %}
+                                        {% set j = j + 1 %}
+                                              
+                                           {% if j < ( next / PAGINATOR_PER_PAGE ) + 5   and  j > ( previous / PAGINATOR_PER_PAGE) -5   %}
+
+                                             <li class="page-item"><a class="page-link"href="{{ path('app_famille_index', {   offset: i  }) }}">{{j}}</a>
+                                            </li>
+                                            {% endif %}
+                                              {% endfor %}
+                                              {% endif %}
+                                            <li class="page-item">{% if next < familles|length %}
+           <a href="{{ path('app_famille_index', {   offset: next }) }}"  class="page-link" >Next</a>
+       {% endif %}
+                                            </li>
+                                        </ul> 
+                                        
+       
+          
+                                     </nav>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /#  end pagination -->
                     </div>
                     
                 </div>

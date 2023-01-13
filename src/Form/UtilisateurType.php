@@ -51,7 +51,7 @@ class UtilisateurType extends AbstractType
             ->add('telephone')
             
             
-            ->add('Ajouter',SubmitType::class)
+            ->add('Confirmer',SubmitType::class)
             
         ;
     }

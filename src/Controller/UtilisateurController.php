@@ -33,7 +33,21 @@ class UtilisateurController extends AbstractController
            'next' => min(count($paginator), $offset + UtilisateurRepository::PAGINATOR_PER_PAGE),
          ]));
      }
-    
+     #[Route('/recherche', name: 'app_user_search', methods: ['GET','POST'])]
+    public function recherche(UtilisateurRepository $utilisateurRepository,Request $request, Environment $twig  ): Response
+    {
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $data = $request->get('search');
+        $users = $utilisateurRepository->search($data, $offset);
+
+        return new Response($twig->render('backend/utilisateur/index.html.twig', [
+             
+            
+            'utilisateurs' => $users,
+           'previous' => $offset - UtilisateurRepository::PAGINATOR_PER_PAGE,
+           'next' => min(count($users), $offset + UtilisateurRepository::PAGINATOR_PER_PAGE),
+         ]));
+    }
  /*   #[Route('/', name: 'app_utilisateur_index', methods: ['GET'])]
     public function index(UtilisateurRepository $utilisateurRepository ): Response
     {
@@ -71,7 +85,7 @@ class UtilisateurController extends AbstractController
             
         ]);
     }
-
+   
     #[Route('/{id}', name: 'app_utilisateur_show', methods: ['GET'])]
     public function show(Utilisateur $utilisateur): Response
     {

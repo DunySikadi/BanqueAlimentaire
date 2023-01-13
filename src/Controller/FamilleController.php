@@ -9,17 +9,25 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Environment;
 
 #[Route('/admin/famille')]
 class FamilleController extends AbstractController
 {
     #[Route('/', name: 'app_famille_index', methods: ['GET'])]
-    public function index(FamilleRepository $familleRepository): Response
-    {
-        return $this->render('backend/famille/index.html.twig', [
-            'familles' => $familleRepository->findAll(),
-        ]);
-    }
+    public function  index(Request $request, Environment $twig, FamilleRepository $familleRepository): Response
+     {       $offset = max(0, $request->query->getInt('offset', 0));
+       $paginator = $familleRepository->getFamillePaginator( $offset);
+
+         return new Response($twig->render('backend/famille/index.html.twig', [
+             
+            
+            'familles' => $paginator,
+           'previous' => $offset - FamilleRepository::PAGINATOR_PER_PAGE,
+           'next' => min(count($paginator), $offset + FamilleRepository::PAGINATOR_PER_PAGE),
+           'PAGINATOR_PER_PAGE' =>   FamilleRepository::PAGINATOR_PER_PAGE ,
+         ]));
+     }
 
     #[Route('/new', name: 'app_famille_new', methods: ['GET', 'POST'])]
     public function new(Request $request, FamilleRepository $familleRepository): Response

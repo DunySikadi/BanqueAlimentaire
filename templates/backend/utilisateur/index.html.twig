@@ -1,7 +1,18 @@
 {% extends 'backend/base.html.twig' %}
 
 {% block title %}Utilisateur index{% endblock %}
-
+{% block search %}
+        <div class="input-group icons">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
+                        </div>
+                                                
+                        <form action="{{ path('app_user_search') }}", method="post">
+                        <input type="text"   name="search" class="form-control" placeholder="recherche par nom" aria-label="Search Dashboard">
+                        </form>
+                      
+                    </div>  
+ {% endblock %}
 {% block body %}
  
             <div class="row page-titles mx-0">
@@ -60,21 +71,34 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+                        <!-- /# pagination -->
                         <div class="card" >
                             <div class="card-body" >
                                  <div class="bootstrap-pagination">
                                     <nav>
                                         <ul class="pagination">
-                                            <li class="page-item">  {% if previous >= 0 %}
+                                            <li class="page-item">
+                                            
+                                              {% if previous >= 0 %}
             <a href="{{ path('app_utilisateur_index', {  offset: previous }) }}" class="page-link">Previous</a>
        {% endif %}
+                                           
                                             </li>
-                                            {# <li class="page-item"><a class="page-link" href="#">1</a>
+                                            {% if utilisateurs|length > 10 %}
+                                            {% set j = 0 %}
+                                              {% for i  in range (0,utilisateurs|length, 10) %}
+                                        {% set j = j + 1 %}
+                                              
+                                           {% if j < ( next / 10 ) + 5   and  j > ( previous / 10 ) -5   %}
+
+                                             <li class="page-item"><a class="page-link"href="{{ path('app_utilisateur_index', {   offset: i  }) }}">{{j}}</a>
                                             </li>
-                                            <li class="page-item"><a class="page-link" href="#">2</a>
-                                            </li>
-                                            <li class="page-item"><a class="page-link" href="#">3</a>
-                                            </li> #}
+                                            {% endif %}
+                                              {% endfor %}
+                                              {% endif %}
                                             <li class="page-item">{% if next < utilisateurs|length %}
            <a href="{{ path('app_utilisateur_index', {   offset: next }) }}"  class="page-link" >Next</a>
        {% endif %}
@@ -87,7 +111,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /# card -->
+                        <!-- /#  end pagination -->
                     </div>
                     
                 </div>
