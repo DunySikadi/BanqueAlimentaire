@@ -23,10 +23,10 @@
                                         <thead>
                                             <tr>
                                              <th>code produit</th>
-                                                <th>libelle produit</th>
-                                                <th>quantite</th>
+                                                <th>libellé produit</th>
+                                                <th>quantité</th>
                                                  <th>famille</th>
-                                                <th>sous famille</th>
+                                                <th>sous-famille</th>
                                                 
                                                 
                                                  <th>commentaire</th>
@@ -53,10 +53,11 @@
                                             
                                         </tbody>
                                     </table>
-                                    <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('pdf', {'id': commande.id}) }}">Telecharger PDF</a>
+                                    <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('pdf', {'id': commande.id}) }}">Télécharger PDF</a>
                                                 </td> 
-                                                 <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('csv', {'id': commande.id}) }}">Telecharger VIF</a>
-                                                </td> 
+                                                {% if is_granted('ROLE_ADMIN') %}
+                                                 <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('csv', {'id': commande.id}) }}">Télécharger VIF</a>
+                                                </td> {% endif %}
                                 </div>
                             </div>
                         </div>

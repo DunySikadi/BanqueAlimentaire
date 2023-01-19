@@ -24,17 +24,7 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
     {
         parent::__construct($registry, Utilisateur::class);
     }
-    public function getUserPaginator(  int $offset): Paginator
-       {
-            $query = $this->createQueryBuilder('c')
-               ->orderBy('c.username', 'DESC')
-               ->setMaxResults(self::PAGINATOR_PER_PAGE)
-                ->setFirstResult($offset)
-                ->getQuery()
-            ;
     
-            return new Paginator($query);
-        }
 
         public function search ($nom , int $offset): Paginator{
             

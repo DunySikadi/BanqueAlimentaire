@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Utilisateur;
 use App\Form\UtilisateurType;
+use App\Form\UtilisateurTypeModifier;
 use App\Repository\UtilisateurRepository;
 use App\Repository\ClassificationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,18 +22,14 @@ class UtilisateurController extends AbstractController
 {
        
     #[Route('/', name: 'app_utilisateur_index', methods: ['GET'])]
-    public function  index(Request $request, Environment $twig,UtilisateurRepository $utilisateurRepository): Response
-     {       $offset = max(0, $request->query->getInt('offset', 0));
-       $paginator = $utilisateurRepository->getUserPaginator( $offset);
+    public function index(UtilisateurRepository $utilisateurRepository): Response
+    {
+        return $this->render('backend/utilisateur/index.html.twig', [
+            'utilisateurs' => $utilisateurRepository->findBy(array(), array('nomAssociation' => 'ASC')),
+        ]);
+    }
 
-         return new Response($twig->render('backend/utilisateur/index.html.twig', [
-             
-            
-            'utilisateurs' => $paginator,
-           'previous' => $offset - UtilisateurRepository::PAGINATOR_PER_PAGE,
-           'next' => min(count($paginator), $offset + UtilisateurRepository::PAGINATOR_PER_PAGE),
-         ]));
-     }
+
      #[Route('/recherche', name: 'app_user_search', methods: ['GET','POST'])]
     public function recherche(UtilisateurRepository $utilisateurRepository,Request $request, Environment $twig  ): Response
     {
@@ -97,16 +94,16 @@ class UtilisateurController extends AbstractController
     #[Route('/{id}/edit', name: 'app_utilisateur_edit', methods: ['GET', 'POST'])]
     public function edit( SluggerInterface $slugger,Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository,UserPasswordHasherInterface $userPasswordHasher): Response
     {
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurTypeModifier::class, $utilisateur);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $utilisateur,
-                    $utilisateur->getPassword()
-                )
-            );
+            // $utilisateur->setPassword(
+            //     $userPasswordHasher->hashPassword(
+            //         $utilisateur,
+            //         $utilisateur->getPassword()
+            //     )
+            // );
           
             
             $utilisateurRepository->save($utilisateur, true);
@@ -117,6 +114,40 @@ class UtilisateurController extends AbstractController
         return $this->renderForm('backend/utilisateur/edit.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
+        ]);
+    }
+    #[Route('/{id}/editmdp', name: 'app_utilisateur_editmdp', methods: ['GET', 'POST'])]
+    public function editmdp( SluggerInterface $slugger,Request $request, Utilisateur $utilisateur, UtilisateurRepository $utilisateurRepository,UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $error=""  ;
+        if($request->isMethod('POST')){
+            $password = $request->request->get('p');
+            $confirmpassword = $request->request->get('cp');
+            
+          if (strcmp( $confirmpassword, $password )==0) {
+            $utilisateur->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $utilisateur,
+                    $password
+                )
+            );
+        
+            $utilisateurRepository->save($utilisateur, true);
+
+            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+        
+        }
+
+
+            else $error = "Les deux mot de passe doivent etre les mêmes ! ";
+          
+            
+            
+        }
+    
+        return $this->renderForm('backend/utilisateur/editmdp.html.twig', [
+            'u' => $utilisateur, 
+            'error' => $error,
         ]);
     }
 

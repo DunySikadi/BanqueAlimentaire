@@ -180,23 +180,19 @@ table.proposedWork td.description{text-align:left}
     
     <table class="shipToFrom">
       <thead style="font-weight:bold">
-        <tr>
-          <th>A l'association</th>
-          <th>Dates</th>
-        </tr>
-      </thead>
+        
       <tbody>
         <tr>
           <td contenteditable="true" style="width:50%">
+            Commande : {{intitule}}<br/><br/><br/>
             Nom : {{commande.utilisateur.nomAssociation}}<br/>
-            Code : {{commande.utilisateur.username}}<br/>
-            Nombre des beneficiaires : {{commande.beneficiaire}}
+            Nombre des bénéficiaires : {{commande.beneficiaire}}
           </td>
           <td contenteditable="true" style="width:50%">
-                      Remarque : {{commande.commentaire}}<br/>
+                      Remarque : {{commande.commentaire}}<br/><br/><br/>
 
-Date commande : {{commande.date|date('d-m-Y H:i')}} <br/>
-Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
+Commandé le : {{commande.date|date('d-m-Y')}}  <br/>
+Livraison le : {{commande.dateSouhaite|date('d-m-Y')}} {% if(commande.livrable==true) %}A LIVRER{% endif %} {% if(commande.livrable==false) %}Sur Place{% endif %}<br/>
           </td>
         </tr>
       </tbody>
@@ -210,7 +206,7 @@ Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
  <th> ART</th>
   <th>QTE</th>
     <th>DESIGNATION</th>
-       <th>COMMENTAIRE 25c</th>                                         
+       <th>COMMENTAIRE</th>                                         
         <th>&nbsp; &nbsp; &nbsp;</th>
         <th>&nbsp; &nbsp; &nbsp;</th>
        
@@ -221,10 +217,10 @@ Date livraison : {{commande.dateSouhaite|date('d-m-Y H:i')}}<br/>
                                             <tr>
                                             <td>{{ f.article.codeArticle }}</td>
                                             <td>{{ f.quantite}}</td>
-                                            <td>{{ f.article.libelleArticle  }}</td>
+                                            <td style="text-align: left;">{{ f.article.libelleArticle  }}</td>
                                                 
                                                 
-                                                <td>{{ f.commentaire|length > 25 ? f.commentaire|slice(0, 25) ~ '...' :  f.commentaire  }} </td>
+                                                <td  style="text-align: left;">{{ f.commentaire|length > 35 ? f.commentaire|slice(0, 35) ~ '...' :  f.commentaire  }} </td>
                                                 <td></td>
                                                  <td></td>
                                                 

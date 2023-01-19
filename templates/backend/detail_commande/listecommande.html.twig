@@ -34,19 +34,18 @@
                                         <thead>
                                             <tr>
                                                 <th>Utilisateur</th>
-                                                <th>nom d'association</th>
+                                                <th>Nom de l’association</th>
                                                 <th>Date</th>
-                                                <th>Etat</th>
-                                                <th>date souhaité</th>
-                                                <th>commentaire</th>
-                                                <th>Avec livraison</th>
+                                                <th>État</th>
+                                                <th>Date de livraison souhaitée</th>
+                                                 <th>Avec livraison</th>
                                                  {% if is_granted('ROLE_ADMIN') %}
                                                 <th>supprimer</th>
                                                 
-                                                <th>Accepter</th>
+                                                 
                                                 
                                                 {% endif %}
-                                                <th>Detail</th>
+                                                <th>Détail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -57,18 +56,17 @@
                                                 <td>{{ c.date|date('d-m-Y')}}</td>
                                                 
                                                 {% if(c.etat==true) %}
-                                                <td> Acceptée</td>
+                                                <td>Traitée</td>
                                                 {% endif %} 
                                                 {% if(c.etat==false) %}
                                                 <td>En cours de traitement</td>
                                                 {% endif %} 
                                                 <td>{{ c.datesouhaite|date('d-m-Y')}}</td>
-                                                   <td>{{ c.commentaire }}</td>
-                                                    {% if(c.livrable==true) %}
-                                                <td>Livraison</td>
+                                                     {% if(c.livrable==true) %}
+                                                <td>A LIVRER</td>
                                                 {% endif %} 
                                                 {% if(c.livrable==false) %}
-                                                  <td>Sans Livraison</td>
+                                                  <td>Sur Place</td>
                                                   {% endif %} 
                                               
                                                  {% if is_granted('ROLE_ADMIN') %}
@@ -79,20 +77,15 @@
                                                  <form method="post" action="{{ path('app_commande_delete', {'id': c.id}) }}" onsubmit="return confirm('voulez vous supprimer cette commande?');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ c.id) }}">
-                                                <a class="btn mb-1 btn-rounded btn-danger" style="color:white;" href="#" onclick="$(this).closest('form').submit()">supprimer</a>
+                                                <a class="btn mb-1 btn-rounded btn-danger btn-sm" style="color:white;" href="#" onclick="$(this).closest('form').submit()">supprimer</a>
                                            
                                             </form>
                                                 
                                                 </td>
 
-                                                
-                                                 
-                                                
-                                                <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('accepter', {'id': c.id}) }}">accepter</a>
-                                                </td>
                                                  {% endif %}
                                                 
-                                                <td><a type="button" class="btn mb-1 btn-rounded btn-info" href="{{ path('detail', {'id': c.id}) }}">Detail</a>
+                                                <td><a type="button" class="btn mb-1 btn-rounded btn-info btn-sm" href="{{ path('detail', {'id': c.id}) }}"> Détail </a>
                                                 </td>
                                                 {% endfor %}
                                             

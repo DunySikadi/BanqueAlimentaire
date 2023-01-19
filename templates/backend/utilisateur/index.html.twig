@@ -40,7 +40,7 @@
                                                 <th>Adresse</th>
                                                 <th>Telephone</th>
                                                 <th>Supprimer</th>
-                                                <th>Mofifier</th>
+                                                <th>Modifier</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -55,14 +55,16 @@
                                                  <form method="post" action="{{ path('app_utilisateur_delete', {'id': utilisateur.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ utilisateur.id) }}">
-                                                <a class="btn mb-1 btn-rounded btn-danger" style="color:white;" href="#" onclick="$(this).closest('form').submit()">supprimer</a>
+                                                <a class="btn mb-1 btn-rounded btn-danger btn-sm" style="color:white;" href="#" onclick="$(this).closest('form').submit()">supprimer</a>
                                             </form>
                                                 
                                                 </td>
 
                                                 
                                                  
-                                                <td><a type="button" class="btn mb-1 btn-rounded btn-success" href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">modifier</a>
+                                                <td><a type="button" class="btn mb-1 btn-rounded btn-success btn-sm" href="{{ path('app_utilisateur_edit', {'id': utilisateur.id}) }}">modifier</a>
+                                                </td>
+                                                <td><a type="button" class="btn mb-1 btn-rounded btn-success btn-sm" href="{{ path('app_utilisateur_editmdp', {'id': utilisateur.id}) }}">modifier mot de passe</a>
                                                 </td>
                                                 {% endfor %}
                                             
@@ -74,44 +76,7 @@
 
 
 
-                        <!-- /# pagination -->
-                        <div class="card" >
-                            <div class="card-body" >
-                                 <div class="bootstrap-pagination">
-                                    <nav>
-                                        <ul class="pagination">
-                                            <li class="page-item">
-                                            
-                                              {% if previous >= 0 %}
-            <a href="{{ path('app_utilisateur_index', {  offset: previous }) }}" class="page-link">Previous</a>
-       {% endif %}
-                                           
-                                            </li>
-                                            {% if utilisateurs|length > 10 %}
-                                            {% set j = 0 %}
-                                              {% for i  in range (0,utilisateurs|length, 10) %}
-                                        {% set j = j + 1 %}
-                                              
-                                           {% if j < ( next / 10 ) + 5   and  j > ( previous / 10 ) -5   %}
-
-                                             <li class="page-item"><a class="page-link"href="{{ path('app_utilisateur_index', {   offset: i  }) }}">{{j}}</a>
-                                            </li>
-                                            {% endif %}
-                                              {% endfor %}
-                                              {% endif %}
-                                            <li class="page-item">{% if next < utilisateurs|length %}
-           <a href="{{ path('app_utilisateur_index', {   offset: next }) }}"  class="page-link" >Next</a>
-       {% endif %}
-                                            </li>
-                                        </ul> 
-                                        
-       
-          
-                                     </nav>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /#  end pagination -->
+                      
                     </div>
                     
                 </div>

@@ -17,7 +17,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
  */
 class FamilleRepository extends ServiceEntityRepository
 {
-    public const PAGINATOR_PER_PAGE = 5;
+    public const PAGINATOR_PER_PAGE = 10;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Famille::class);

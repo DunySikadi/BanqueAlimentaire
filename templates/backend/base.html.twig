@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Banque alimentaire</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('images/logo.png')}}">
     <!-- Pignose Calender -->
     <link href="{{ asset('plugins/pg-calendar/css/pignose.calendar.min.css')}}" rel="stylesheet">
     <!-- Chartist -->
@@ -44,15 +44,9 @@
             Nav header start
         ***********************************-->
         <div class="nav-header">
-            <div class="brand-logo">
-                <a href="{{ path('app_home') }}">
-                    <b class="logo-abbr"><img src="{{ asset('images/logo.png') }}" alt=""> </b>
-                    <span class="logo-compact"><img src="{{ asset('images/logo-compact.png') }}" alt=""></span>
-                    <span class="brand-title">
-                        Banque Alimentaire
-                    </span>
+             <a href="{{ path('app_home') }}">
+                    <img src="{{asset('images/banquealimentaire.png')}}" width="180" height="70" alt="logo du site" class="mx-1" />
                 </a>
-            </div>
         </div>
         <!--**********************************
             Nav header end
@@ -253,6 +247,21 @@
 
 
     <script src="{{asset('js/dashboard/dashboard-1.js')}}"></script>
+     <style>
+      .h1{
+        font-size: 54px;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-weight: bolder;
+        color: coral;
+        text-shadow: 0 0 15px rgba(255,255,255), 0 0 15px rgba(255,255,255);
+      }
+      .p{
+        font-size: 20px;
+        color: black;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      }
+    </style>
         {% endblock %}
     </body>
+
 </html>
