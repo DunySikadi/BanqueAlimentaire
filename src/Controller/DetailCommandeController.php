@@ -149,12 +149,13 @@ class DetailCommandeController extends AbstractController
             $date = $request->request->get('date');
             $livrable = $request->request->get('livrable');
             $beneficiaire = $request->request->get('beneficiaire');
+            $familleNbr = $request->request->get('familleNbr');
             $commande->setDateSouhaite(new \DateTime($date));
             $commande->setBeneficiaire($beneficiaire);
             $commande->setCommentaire($commentaire);
             $commande->setLivrable($livrable);
-            if($this->dateDiffInDays($today->format('Y-m-d H:i:s') ,$date)>=2){
-                $commandeRepository->save($commande, true);
+            $commande->setFamilleNbr($familleNbr);
+                 $commandeRepository->save($commande, true);
                 $posts = $request->request->all();
             
             $articles = $request->request->all('article');
@@ -176,8 +177,7 @@ class DetailCommandeController extends AbstractController
                 
              }
              return $this->redirectToRoute('app_commande_index', [], Response::HTTP_SEE_OTHER);
-            }
-            else $erreur.=" ! la date souhaité doit etre au minimum aprés 2 jour de la date de commande ! ";
+             
             
             
           

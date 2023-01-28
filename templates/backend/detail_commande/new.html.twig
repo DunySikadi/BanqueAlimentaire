@@ -26,7 +26,16 @@
                                                  <input type="number" name="beneficiaire" class="form-control" > 
                                              </div>
                                                 
-                                        </div><div class="form-row"   >
+                                        </div>
+                                        <div class="form-row"   >
+                                            <div class="form-group col-md-12">
+                                                <label>Nombre de familles servies pour cette commande</label>
+                                                   
+                                                 <input type="number" name="familleNbr" class="form-control" > 
+                                             </div>
+                                                
+                                        </div>
+                                        <div class="form-row"   >
                                             <div class="form-group col-md-12">
                                                 <label>date de livraison souhaitée</label>
                                                    
@@ -121,7 +130,7 @@
 {% endblock %}
 
       {% block Js %}
-
+  
     <script>
     var counter=0;
     function add_more_commande(){

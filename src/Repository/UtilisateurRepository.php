@@ -70,20 +70,18 @@ class UtilisateurRepository extends ServiceEntityRepository implements PasswordU
         $this->save($user, true);
     }
 
-//    /**
-//     * @return Utilisateur[] Returns an array of Utilisateur objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   /**
+    * @return Utilisateur[] Returns an array of Utilisateur objects
+    */
+   public function findByIdentifiant($value): array
+   {
+       return $this->createQueryBuilder('u')
+           ->andWhere('u.username = :val')
+           ->setParameter('val', $value)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
 
 //    public function findOneBySomeField($value): ?Utilisateur
 //    {

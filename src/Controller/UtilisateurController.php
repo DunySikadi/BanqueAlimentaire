@@ -59,10 +59,16 @@ class UtilisateurController extends AbstractController
         $utilisateur = new Utilisateur();
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
-       
-        if ($form->isSubmitted() && $form->isValid()) {
-            var_dump("yes");
-            $utilisateur->setPassword(
+        $error ="";
+        if ($form->isSubmitted() && $form->isValid() ) {
+            $userForm = $form->getData();
+            $users = $utilisateurRepository->findByIdentifiant($userForm->getUsername());
+            if(count($users)!=0){
+                $error = "L'identifiant existe déja !";
+            }
+            else {
+
+             $utilisateur->setPassword(
                 $userPasswordHasher->hashPassword(
                     $utilisateur,
                     $utilisateur->getPassword()
@@ -74,11 +80,13 @@ class UtilisateurController extends AbstractController
 
             return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
         }
+        }
          
         
         return $this->renderForm('backend/utilisateur/new.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
+            'error'=>$error,
             
         ]);
     }
@@ -96,24 +104,27 @@ class UtilisateurController extends AbstractController
     {
         $form = $this->createForm(UtilisateurTypeModifier::class, $utilisateur);
         $form->handleRequest($request);
-
+        $error="";
         if ($form->isSubmitted() && $form->isValid()) {
-            // $utilisateur->setPassword(
-            //     $userPasswordHasher->hashPassword(
-            //         $utilisateur,
-            //         $utilisateur->getPassword()
-            //     )
-            // );
+            $userForm = $form->getData();
+            $users = $utilisateurRepository->findByIdentifiant($userForm->getUsername());
+            if(count($users)!=0){
+                $error = "L'identifiant existe déja !";
+            }
+            else {
+                $utilisateurRepository->save($utilisateur, true);
+
+                return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+            } 
           
             
-            $utilisateurRepository->save($utilisateur, true);
-
-            return $this->redirectToRoute('app_utilisateur_index', [], Response::HTTP_SEE_OTHER);
+           
         }
 
         return $this->renderForm('backend/utilisateur/edit.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
+            'error'=>$error,
         ]);
     }
     #[Route('/{id}/editmdp', name: 'app_utilisateur_editmdp', methods: ['GET', 'POST'])]
